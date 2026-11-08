@@ -1,0 +1,197 @@
+; Item tiers for .shopbotm chit: <normal> <exceptional> <elite> [chit=<chit base name>]
+; A chit only names its normal base, but can roll the exceptional or elite version, so
+; ".sbm c hood" shops for Cap chits. Anything after ';' is a comment.
+;
+; Generated 2026-11-08 from https://realm.astryl.dev/compendium/base-armour and base-weapons:
+; in each item group, the Nth normal base (skipping "Unique only" bases) matches the Nth
+; exceptional and Nth elite base.
+; chit= is only needed where the chits use a different name from the normal base.
+
+cap xap yap ; Helm: Cap / War Hat / Hood
+skp xkp ykp ; Helm: Skull Cap / Sallet / Fedora
+hlm xlm ylm ; Helm: Helm / Casque / Guardian Helm
+fhl xhl yhl ; Helm: Full Helm / Basinet / Gladiator Helm
+msk xsk ysk ; Helm: Mask / Death Mask / Devil Mask
+bhm xh9 yh9 ; Helm: Bone Helm / Grim Helm / Demon Skull
+ghm xhm yhm ; Helm: Great Helm / Winged Helm / Tusk Helm
+crn xrn yrn ; Helm: Crown / Grand Crown / Royal Crown
+dwc xdw ydw ; Helm: Dwarven Circlet / Dwarven Faceguard / Dwarven Faceplate
+qui xui yui ; Armor: Quilted Armor / Ghost Armor / Padded Armor
+lea xea yea ; Armor: Leather Armor / Serpentskin Armor / Viper Skin
+hla xla yla ; Armor: Hard Leather Armor / Demonhide Armor / Demon Carapace
+stu xtu ytu ; Armor: Studded Leather / Trellised Armor / Gemstoned Armor
+rng xng yng ; Armor: Ring Mail / Linked Mail / Heavy Mail
+scl xcl ycl ; Armor: Scale Mail / Tigulated Mail / Dragon Scale
+chn xhn yhn ; Armor: Chain Mail / Mesh Armor / Chain Shirt
+brs xrs yrs ; Armor: Breast Plate / Cuirass / Chest Guard
+spl xpl ypl ; Armor: Splint Mail / Russet Armor / Demon Fleece
+plt xlt ylt ; Armor: Plate Mail / Templar Coat / Plated Cuirass
+fld xld yld ; Armor: Field Plate / Sharktooth Armor / Combat Plate
+gth xth yth ; Armor: Gothic Plate / Embossed Plate / Royal Armor
+ltp xtp ytp ; Armor: Light Plate / Mage Plate / Archmage Plate
+ful xul yul ; Armor: Full Plate Mail / Chaos Armor / Ceremonial Armor
+shl xhh yhh ; Armor: Spiked Shoulder / Thorned Armor / Spiked Armor
+aar xlv yar ; Armor: Ancient Armor / Drow Adamantite Chain / Archaic Armor
+elv xar ylv ; Armor: Elven Chain / Ornate Plate / Sylvan Chain
+buc xuc yuc ; Shield: Buckler / Defender / Petrified Buckler
+sml xml yml ; Shield: Small Shield / Round Shield / Desert Shield
+lrg xpk ypk ; Shield: Large Shield / Barbed Shield / Thorned Shield
+spk xrg yrg ; Shield: Spiked Shield / Scutum / Giant Buckler
+kit xit yit ; Shield: Kite Shield / Dragon Shield / Military Shield
+bsh xsh ysh ; Shield: Bone Shield / Grim Shield / Demon Shield
+tow xow yow ; Shield: Tower Shield / Pavise / Imperial Shield
+gts xts yts ; Shield: Gothic Shield / Ancient Shield / Body Shield
+fts xft yft ; Shield: Fortress Shield / Reflection Shield / Ceremonial Shield
+lgl xlg ylg ; Gloves: Leather Gloves / Demonhide Gloves / Spellcaster Gloves
+vgl xvg yvg ; Gloves: Heavy Gloves / Sharkskin Gloves / Viper Hands
+mgl xmg ymg ; Gloves: Chain Gloves / Heavy Bracers / Sepulcher Gloves
+tgl xtg ytg ; Gloves: Light Gauntlets / Battle Gauntlets / Gladiator Gauntlets
+hgl xhg yhg ; Gloves: Gauntlets / War Gauntlets / Titan Gauntlets
+irg xig yig ; Gloves: Iron Guards / Military Guards / Royal Guards
+lbt xlb ylb ; Boots: Boots / Demonhide Boots / Rogue Boots
+vbt xvb yvb ; Boots: Heavy Boots / Sharkskin Boots / Viper Boots
+mbt xmb ymb ; Boots: Chain Boots / Mesh Boots / Sepulcher Boots
+tbt xtb ytb ; Boots: Light Plated Boots / Battle Boots / Gladiator Boots
+hbt xhb yhb ; Boots: Greaves / War Boots / Titan Boots
+dbt xbt ybt ; Boots: Crystal Boots / Dimensional Boots / Phase Boots
+lbl zlb alb ; Belt: Sash / Demonhide Sash / Hemp Band
+vbl zvb avb ; Belt: Light Belt / Sharkskin Belt / Rogue Belt
+mbl zmb bmb ; Belt: Belt / Mesh Belt / Merchant Belt
+tbl ztb atb ; Belt: Heavy Belt / Battle Belt / Gladiator Belt
+hbl zhb ahb ; Belt: Plated Belt / War Belt / Titan Belt
+msb xms yms ; Belt: Muscle Wrap / Giant Wrap / Herculean Wrap
+dr1 dr6 drb ; Pelt: Wolf Head / Alpha Helm / Blood Spirit
+dr2 dr7 drc ; Pelt: Hawk Helm / Griffon Headdress / Sun Spirit
+dr3 dr8 drd ; Pelt: Antlers / Hunter's Guise / Earth Spirit
+dr4 dr9 dre ; Pelt: Falcon Mask / Sacred Feathers / Sky Spirit
+dr5 dra drf ; Pelt: Spirit Mask / Totemic Mask / Dream Spirit
+ba1 ba6 bab ; Primal Helm: Jawbone Cap / Jawbone Visor / Carnage Helm
+ba2 ba7 bac ; Primal Helm: Fanged Helm / Lion Helm / Fury Visor
+ba3 ba8 bad ; Primal Helm: Horned Helm / Rage Mask / Destroyer Helm
+ba4 ba9 bae ; Primal Helm: Assault Helm / Savage Helm / Conqueror Crown
+ba5 baa baf ; Primal Helm: Avenger Guard / Slayer Guard / Guardian Crown
+pa1 pa6 pab ; Auric Shields: Targe / Akaran Targe / Sacred Targe
+pa2 pa7 pac ; Auric Shields: Rondache / Akaran Rondache / Sacred Rondache
+pa3 pa8 pad ; Auric Shields: Heraldic Shield / Protector Shield / Kurast Shield
+pa4 pa9 pae ; Auric Shields: Aerin Shield / Gilded Shield / Zakarum Shield
+pa5 paa paf ; Auric Shields: Crown Shield / Royal Shield / Vortex Shield
+ne1 ne6 neb ; Voodoo Heads: Preserved Head / Mummified Trophy / Minion Skull
+ne2 ne7 neg ; Voodoo Heads: Zombie Head / Fetish Trophy / Hellspawn Skull
+ne3 ne8 ned ; Voodoo Heads: Unraveller Head / Sexton Trophy / Overseer Skull
+ne4 ne9 nee ; Voodoo Heads: Gargoyle Head / Cantor Trophy / Succubus Skull
+ne5 nea nef ; Voodoo Heads: Demon Head / Hierophant Trophy / Bloodlord Skull
+cix ci4 ci2 ; Circlet: Hachigane / Faceguard / Tiara
+ci0 ci1 ci3 ; Circlet: Circlet / Coronet / Diadem
+eht xht yht ; Spirit Crown: Spirit Crown / Ethereal Crown / Titania Crown
+clk xlk ylk ; Cloak: Cloak / Shadow Cloak / Shinobi Cloak
+rob xrb yrb ; Robe: Robe / Mage Robe / Archmage Robe
+hax 9ha 0ha ; Axe: Hand Axe / Hatchet / Barbarian Tomahawk
+lax 9ax 0ax ; Axe: Large Axe / Cleaver / Precision Cleaver
+axe 9la 0la ; Axe: Axe / Military Axe / Brawn Axe
+bax 9ba 82a ; Axe: Broad Axe / Bearded Axe / Duo-Axe
+2ax 92a 0ba ; Axe: Double Axe / Twin Axe / Heavy Axe
+btx 9bt 0bt ; Axe: Battle Axe / Tabar / Split Axe
+mpi 9mp 0mp ; Axe: Military Pick / Crowbill / Razor Axe
+gax 9ga 0ga ; Axe: Great Axe / Gothic Axe / Guillotine Axe
+wax 9wa 0wa ; Axe: War Axe / Naga / Viking Axe
+gix 9gi 0gi ; Axe: Giant Axe / Ancient Axe / Slayer Axe
+wnd 9wn 0wn ; Wand: Wand / Burnt Wand / Sacred Wand
+ywn 9yw 0yw ; Wand: Yew Wand / Petrified Wand / Sepulcher Wand
+bwn 9bw 0bw ; Wand: Bone Wand / Tomb Wand / Callous Wand
+gwn 9gw 0gw ; Wand: Grim Wand / Grave Wand / Demonic Wand
+clb 9cl 0cl ; Club: Club / Cudgel / Cranium Basher
+spc 9sp 0sp ; Club: Spiked Club / Barbed Club / Thorned Club
+scp 9sc 5sc ; Scepter: Scepter / Rune Scepter / Celestial Scepter
+gsc 9qs 0qs ; Scepter: Grand Scepter / Holy Water Sprinkler / Holy Scepter
+wsp 9ws 0ws ; Scepter: War Scepter / Divine Scepter / Blessed Scepter
+gsp 9gp 0gp ; Scepter: Great Scepter / Consecrated Scepter / Seraphic Scepter
+mac 9ma 0ma ; Mace: Mace / Flanged Mace / Arcane Mace
+mst 9mt 0mt ; Mace: Morning Star / Jagged Star / Serrated Star
+fla 9fl 0fl ; Mace: Flail / Knout / Dire Flail
+mau 9m9 0m0 ; Hammer: Maul / War Club / Ancient Maul
+whm 9wh 0wh ; Hammer: War Hammer / Battle Hammer / Military Hammer
+gma 9gm 0gm ; Hammer: Great Maul / Martel de Fer / Titan's Maul
+ssd 9ss 0ss ; Sword: Short Sword / Gladius / Gladiator Blade
+scm 9sb 0sm ; Sword: Scimitar / Shamshir / Desert Sword
+sbr 92h 02h ; Sword: Sabre / Espandon / Judgement Blade
+2hs 9fc 0sb ; Sword: Two-Handed Sword / Tulwar / Rapier
+flc 9cr 0fc ; Sword: Falchion / Dimensional Blade / Okrist
+crs 9bs 0cr ; Sword: Crystal Sword / Battle Sword / Jeweled Edge
+bsd 9sm 0cm ; Sword: Broad Sword / Cutlass / Titan's Dagger
+clm 9cm 0bs ; Sword: Claymore / Dacian Falx / Viking Sword
+gis 9gs 0gs ; Sword: Giant Sword / Tusk Sword / Lithe Blade
+lsd 9ls 0ls ; Sword: Long Sword / Rune Sword / Arcane Sword
+bsw 9b9 0b0 ; Sword: Bastard Sword / Gothic Sword / Dark Sword
+wsd 9wd 0wd ; Sword: War Sword / Ancient Sword / Trojan Sword
+flb 9fb 0fb ; Sword: Flamberge / Zweihander / Hellfire Sword
+gsd 9gd 0gd ; Sword: Great Sword / Executioner Sword / Death Blade
+dgr 9dg 0dg ; Knife: Dagger / Poignard / Carved Bone
+dir 9di 0di ; Knife: Dirk / Rondel / Mithril Knife
+kri 9kr 0kr ; Knife: Kris / Cinquedeas / Fang Knife
+bld 9bl 0bl ; Knife: Blade / Stiletto / Ancient Spike
+tkf 9tk 0tk ; Throwing Knife: Throwing Knife / Battle Dart / Throwing Dagger
+bkf 9bk 0bk ; Throwing Knife: Balanced Knife / War Dart / Balanced Dagger
+tax 9ta 0ta ; Throwing Axe: Throwing Axe / Francisca / Throwing Hatchet
+bal 9b8 0b6 ; Throwing Axe: Balanced Axe / Hurlbat / Balanced Hatchet
+jav 9ja 0ja ; Javelin: Javelin / War Javelin / Ancient Shards
+pil 9pi 0pi ; Javelin: Pilum / Great Pilum / Dire Pilum
+ssp 9s9 0s9 ; Javelin: Short Spear / Simbilan / Lissom Spear
+glv 9gl 0gl ; Javelin: Glaive / Spiculum / Ahab Spear
+tsp 9ts 0ts ; Javelin: Throwing Spear / Harpoon / Whale Hunter
+spr 9sr 0sr ; Spear: Spear / War Spear / Guisarme
+tri 9tr 0tr ; Spear: Trident / Fuscina / Grapnel
+brn 9br 0br ; Spear: Brandistock / War Fork / Dragon Spear
+spt 9st 0st ; Spear: Spetum / Yari / Ranseur
+pik 9p9 0p0 ; Spear: Pike / Lance / Impaler
+bar 9b7 0b7 ; Polearm: Bardiche / Lochaber Axe / Urgrosh
+vou 9vo 0vo ; Polearm: Voulge / Bill / Pole Gauche
+pax 9pa 0pa ; Polearm: Poleaxe / Partizan / Royal Partizan
+hal 9h9 0h0 ; Polearm: Halberd / Bec-de-Corbin / Guardian
+scy 9s8 0s8 ; Scythe: Scythe / Battle Scythe / Shadow Scythe
+wsc 9wc 0wc ; Scythe: War Scythe / Grim Scythe / Death Reaper
+sst 8ss 1ss ; Staff: Short Staff / Jo Staff / Elder Cane
+lst 8ls 1ls ; Staff: Long Staff / Quarterstaff / Mystic Staff
+cst 8cs 1cs ; Staff: Gnarled Staff / Cedar Staff / Petrified Staff
+bst 8bs 1bs ; Staff: Battle Staff / Gothic Staff / Mage Staff
+wst 8ws 1ws ; Staff: War Staff / Rune Staff / Arcane Staff
+sbw 8sb 1sb ; Bow: Short Bow / Edge Bow / Spiderwoven Bow
+hbw 8hb 1hb ; Bow: Hunter's Bow / Razor Bow / Sharp Bow
+lbw 8lb 1lb ; Bow: Long Bow / Cedar Bow / Shade Bow
+cbw 8cb 1cb ; Bow: Composite Bow / Double Bow / Dark Bow
+sbb 8s8 1s8 ; Bow: Short Battle Bow / Short Siege Bow / Rogue Bow
+lbb 8l8 1l8 ; Bow: Long Battle Bow / Large Siege Bow / Marksman Bow
+swb 8sw 1sw ; Bow: Short War Bow / Rune Bow / Arcane Bow
+lwb 8lw 1lw ; Bow: Long War Bow / Gothic Bow / Ancient Bow
+lxb 8lx 1lx ; Crossbow: Light Crossbow / Arbalest / Choice Crossbow
+mxb 8mx 1mx ; Crossbow: Crossbow / Siege Crossbow / Marksman Crossbow
+hxb 8hx 1hx ; Crossbow: Heavy Crossbow / Ballista / Odysseus Crossbow
+rxb 8rx 1rx ; Crossbow: Repeating Crossbow / Chu-Ko-Nu / Assassin Crossbow
+ktr 9ar 7ar ; Hand to Hand: Katar / Quhab / Suwayyah
+wrb 9wb 7wb ; Hand to Hand: Wrist Blade / Wrist Spike / Wrist Sword
+axf 9xf 7xf ; Hand to Hand: Hatchet Hands / Fascia / War Fist
+ces 9cs 7cs ; Hand to Hand: Cestus / Hand Scythe / Battle Cestus
+clw 9lw 7lw ; Hand to Hand: Claws / Greater Claws / Feral Claws
+btl 9tw 7tw ; Hand to Hand: Blade Talons / Greater Talons / Runic Talons
+skr 9qr 7qr ; Hand to Hand: Scissors Katar / Scissors Quhab / Scissors Suwayyah
+ob1 ob6 obb ; Orb: Eagle Orb / Glowing Orb / Heavenly Stone
+ob2 ob7 obc ; Orb: Sacred Globe / Crystalline Globe / Eldritch Orb
+ob3 ob8 obd ; Orb: Smoked Sphere / Cloudy Sphere / Demon Heart
+ob4 ob9 obe ; Orb: Clasped Orb / Sparkling Ball / Vortex Orb
+ob5 oba obf ; Orb: Jared's Stone / Swirling Crystal / Dimensional Shard
+am1 am6 amb ; Amazon Bow: Stag Bow / Ashwood Bow / Matriarchal Bow
+am2 am7 amc ; Amazon Bow: Reflex Bow / Ceremonial Bow / Grand Matron Bow
+apb 9pb 0pb ; Amazon Bow: Precision Bow / Tuigan Bow / Elven Bow
+am3 am8 amd ; Amazon Spear: Maiden Spear / Ceremonial Spear / Matriarchal Spear
+am4 am9 ame ; Amazon Spear: Maiden Pike / Ceremonial Pike / Matriarchal Pike
+am5 ama amf ; Amazon Javelin: Maiden Javelin / Ceremonial Javelin / Matriarchal Javelin
+njt 9nj 0nn ; Assassin 2H Katana: Ninja To / Wakizashi / Katana
+bts 9xb 0xb chit=Tribal Spear ; Barbarian Javs: Tribal Hatchet / Highland Hatchet / Arreat's Hatchet
+shc 9sh 0sh ; Druid Club: Oak Branch / Shaman Wand / Shillelagh
+nrd 9rd 0rd ; Necromancer Dagger: Ritualistic Dagger / Sacrificial Dagger / Ceremonial Dagger
+nsy 9ns 0ns ; Necromancer Polearm: Wretched Scythe / Dire Scythe / Demonic Scythe
+syn 9sy 0sy ; Necromancer Polearm: Soul Hunter / Soul Burner / Soul Destroyer
+pbe 9be 0be ; Paladin Sword: Blessed Edge / Divine Blade / Celestial Blade
+mnb 9mn 0mn ; Sorceress Mana Blade: Mana Blade / Energy Blade / Wizard Blade
+kkl 9kl 0kl ; Knuckle: Brass Knuckle / Tekko / Raging Knuckle
+arm 9rm 0rm ; Knuckle: Battering Arm / Rock Buster / Wrecking Arm
+rd1 rd2 rd3 ; Fishing Rod: Fishing Rod / Sturdy Fishing Rod / Master Fishing Rod  (no chits)
