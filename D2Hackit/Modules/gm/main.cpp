@@ -54,9 +54,13 @@ MODULECOMMANDSTRUCT ModuleCommands[]=
 {
 	{ "help", Forward, "help\xFF" "c0 Same as\xFF" "c4 .gamblem help" },
 	{ "Start", Forward, "Start\xFF" "c0 Same as\xFF" "c4 .gamblem Start" },
+	{ "s", Forward, "s\xFF" "c0 Same as\xFF" "c4 .gamblem s" },
 	{ "StartRings", Forward, "StartRings\xFF" "c0 Same as\xFF" "c4 .gamblem StartRings" },
+	{ "sr", Forward, "sr\xFF" "c0 Same as\xFF" "c4 .gamblem sr" },
 	{ "StartAmulets", Forward, "StartAmulets\xFF" "c0 Same as\xFF" "c4 .gamblem StartAmulets" },
+	{ "sa", Forward, "sa\xFF" "c0 Same as\xFF" "c4 .gamblem sa" },
 	{ "StartJewellery", Forward, "StartJewellery\xFF" "c0 Same as\xFF" "c4 .gamblem StartJewellery" },
+	{ "sj", Forward, "sj\xFF" "c0 Same as\xFF" "c4 .gamblem sj" },
 	{ "StartAuraStones", Forward, "StartAuraStones\xFF" "c0 Same as\xFF" "c4 .gamblem StartAuraStones" },
 	{ "StartFoc", Forward, "StartFoc\xFF" "c0 Same as\xFF" "c4 .gamblem StartFoc" },
 	{ "StartHeavyMetal", Forward, "StartHeavyMetal\xFF" "c0 Same as\xFF" "c4 .gamblem StartHeavyMetal" },

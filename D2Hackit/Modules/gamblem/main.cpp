@@ -146,6 +146,7 @@ static const char *const START_HELP[] =
 	"start #<code> ...\xFF" "c0 Forces item codes, e.g.\xFF" "c4 start #rin #amu\xFF" "c0 (# on every code).",
 	"start '<name>'\xFF" "c0 Forces a name, e.g.\xFF" "c4 start 'war hat'\xFF" "c0 (single quotes).",
 	"\xFF" "c0  Only needed when the words could be read either way; you will be told when they can.",
+	"s <item codes | item name>\xFF" "c0 Shortcut for start, e.g.\xFF" "c4 s hood",
 	NULL
 };
 
@@ -555,9 +556,9 @@ BOOL PRIVATE Help(char** argv, int argc)
 	};
 
 	server->GamePrintInfo("GambleM commands (.gm works as a short form of .gamblem when gm is loaded). Space stops gambling.");
-	server->GamePrintInfo("\xFF" "c4.gamblem start <item codes | item name>\xFF" "c0 - gamble for these, e.g.\xFF" "c4 start rin amu\xFF" "c0 or\xFF" "c4 start death mask\xFF" "c0 (gambles Mask)");
+	server->GamePrintInfo("\xFF" "c4.gamblem start <item codes | item name>\xFF" "c0 (or\xFF" "c4 s\xFF" "c0) - gamble for these, e.g.\xFF" "c4 start rin amu\xFF" "c0 or\xFF" "c4 start death mask\xFF" "c0 (gambles Mask)");
 	server->GamePrintInfo("\xFF" "c0  If the words could mean item codes or a name you will be asked which:\xFF" "c4 #code\xFF" "c0 forces codes,\xFF" "c4 'name'\xFF" "c0 a name");
-	server->GamePrintInfo("\xFF" "c4.gamblem startrings\xFF" "c0 /\xFF" "c4 startamulets\xFF" "c0 /\xFF" "c4 startjewellery\xFF" "c0 - gamble for rings, amulets, or both (class versions included)");
+	server->GamePrintInfo("\xFF" "c4.gamblem startrings\xFF" "c0 (\xFF" "c4sr\xFF" "c0) /\xFF" "c4 startamulets\xFF" "c0 (\xFF" "c4sa\xFF" "c0) /\xFF" "c4 startjewellery\xFF" "c0 (\xFF" "c4sj\xFF" "c0) - gamble for rings, amulets, or both (class versions included)");
 	server->GamePrintInfo("\xFF" "c4.gamblem startaurastones\xFF" "c0 - gamble for class amulets; also toggles autostock with sets, rares and uniques");
 	for(const auto &preset : PRESETS)
 	{
@@ -794,9 +795,19 @@ MODULECOMMANDSTRUCT ModuleCommands[]=
 		"Start <item codes | item name>\xFF" "c0 Starts gambling; see\xFF" "c4 .gamblem start help"
 	},
 	{
+		"s",
+		Start,
+		"s <item codes | item name>\xFF" "c0 Shortcut for start; see\xFF" "c4 .gamblem start help"
+	},
+	{
 		"StartRings",
 		StartRings,
 		"Starts gambling for rings"
+	},
+	{
+		"sr",
+		StartRings,
+		"sr\xFF" "c0 Shortcut for startrings"
 	},
 	{
 		"StartAmulets",
@@ -804,9 +815,19 @@ MODULECOMMANDSTRUCT ModuleCommands[]=
 		"Starts gambling for amulets"
 	},
 	{
+		"sa",
+		StartAmulets,
+		"sa\xFF" "c0 Shortcut for startamulets"
+	},
+	{
 		"StartJewellery",
 		StartJewellery,
 		"Start gambling for rings and amulets",
+	},
+	{
+		"sj",
+		StartJewellery,
+		"sj\xFF" "c0 Shortcut for startjewellery"
 	},
 	{
 		"StartAuraStones",
