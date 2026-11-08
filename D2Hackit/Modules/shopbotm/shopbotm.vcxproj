@@ -118,6 +118,12 @@ xcopy /Y $(TargetPath) $(SolutionDir)\Publish_$(Configuration)\</Command>
     <ClInclude Include="shopbotm.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\goodPrefix_shopbotm.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Resources\goodSuffix_shopbotm.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="Resources\shopbotm.ini">
       <DeploymentContent>true</DeploymentContent>
     </None>

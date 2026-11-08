@@ -38,6 +38,9 @@ ShopBot::ShopBot()
 	merchantName = "";
 	sessionAttempts = 0;
 	refreshCount = 0;
+	minPrefix = 1;
+	minSuffix = 0;
+	checkAffixes = true;
 }
 
 bool ShopBot::LoadItemMap(const std::string& fileName, std::unordered_map<std::string, std::string>& itemMap)
@@ -64,6 +67,39 @@ bool ShopBot::LoadItemMap(const std::string& fileName, std::unordered_map<std::s
 
 		itemMap.insert({ itemName, itemDesc });
 	}
+
+	return true;
+}
+
+bool ShopBot::ReadConfig(const std::string &configPath, std::unordered_set<int> &readTo)
+{
+	std::ifstream inFile(configPath);
+	if(!inFile.is_open())
+	{
+		server->GameStringf(SBM_TAG "Failed to open file %s\n", configPath.c_str());
+		return false;
+	}
+
+	readTo.clear();
+
+	std::string readLineBuff;
+	while(std::getline(inFile, readLineBuff))
+	{
+		try
+		{
+			const auto readNum = std::stoi(readLineBuff);
+			if (readNum > 0)
+			{
+				readTo.insert(readNum);
+			}
+		}
+		catch (...)
+		{
+			continue;
+		}
+	}
+
+	inFile.close();
 
 	return true;
 }
@@ -252,7 +288,7 @@ bool ShopBot::FindChits(const std::vector<std::string> &args, std::unordered_map
 }
 
 // itemsToShopFor maps item code -> name; when empty, the list is read from shopbotm_items.txt
-bool ShopBot::Start(const std::unordered_map<std::string, std::string> &itemsToShopFor)
+bool ShopBot::Start(const std::unordered_map<std::string, std::string> &itemsToShopFor, bool checkAffixes)
 {
 	if (currentState != STATE_UNINITIALIZED)
 	{
@@ -266,6 +302,16 @@ bool ShopBot::Start(const std::unordered_map<std::string, std::string> &itemsToS
 
 	while (!gambleQueue.empty()) {
 		gambleQueue.pop();
+	}
+
+	this->checkAffixes = checkAffixes;
+	if (checkAffixes)
+	{
+		if(!ReadConfig(".\\plugin\\goodPrefix_shopbotm.txt", goodPrefix))
+			return false;
+
+		if(!ReadConfig(".\\plugin\\goodSuffix_shopbotm.txt", goodSuffix))
+			return false;
 	}
 
 	if (itemsToShopFor.empty())
@@ -285,6 +331,12 @@ bool ShopBot::Start(const std::unordered_map<std::string, std::string> &itemsToS
 		itemList += " " + iter.first;
 	}
 	server->GameStringf(SBM_TAG "Shopping for:%s", itemList.c_str());
+
+	if (checkAffixes)
+	{
+		minPrefix = GetPrivateProfileInt("ShopBotM", "PrefixCount", 1, CONFIG_PATH);
+		minSuffix = GetPrivateProfileInt("ShopBotM", "SuffixCount", 0, CONFIG_PATH);
+	}
 
 	// Read as text first so a missing or mistyped setting can be reported, not silently replaced
 	char cooldownText[32];
@@ -308,6 +360,10 @@ bool ShopBot::Start(const std::unordered_map<std::string, std::string> &itemsToS
 		server->GameCommandf("flee SuppressAutoTp 1");
 	}
 
+	if (checkAffixes)
+	{
+		server->GameStringf(SBM_TAG "Min prefix: %d Min suffix: %d", minPrefix, minSuffix);
+	}
 	server->GameStringf(SBM_TAG "Refresh every %lu ms", refreshCooldownMs);
 
 	lastRefreshTick = 0;
@@ -591,6 +647,29 @@ void ShopBot::OnNotEnoughMoney()
 	Finish("Not enough money");
 }
 
+bool ShopBot::IsItemGood(const ITEM &item)
+{
+	int goodPrefixCount = 0;
+	int goodSuffixCount = 0;
+
+
+	for(int i = 0; i < ITEM_MAX_PREFIX; i++)
+	{
+		if(goodPrefix.count(item.wPrefix[i]) > 0)
+		{
+			goodPrefixCount++;
+			//server->GameStringf("\xFF" "c;Prefix\xFF" "c0 %s: %s", Prefix[item.wPrefix[i]], PrefixDetails[item.wPrefix[i]]);
+		}
+		if(goodSuffix.count(item.wSuffix[i]) > 0)
+		{
+			goodSuffixCount++;
+			//server->GameStringf("\xFF" "c:Suffix\xFF" "c0 %s: %s", Suffix[item.wSuffix[i]], SuffixDetails[item.wSuffix[i]]);
+		}
+	}
+
+	return goodPrefixCount >= minPrefix && goodSuffixCount >= minSuffix;
+}
+
 // Called for each item the merchant lists: when the store opens, and again after each Refresh
 void ShopBot::OnNpcItemList(ITEM &merchantItem)
 {
@@ -602,19 +681,21 @@ void ShopBot::OnNpcItemList(ITEM &merchantItem)
 		storeItemsSeen++;
 	}
 
-	// Any item whose code is on the list is bought, whatever its affixes
 	if((targetItems.empty() && server->IsArmor(merchantItem.szItemCode)) || targetItems.count(merchantItem.szItemCode) > 0)
 	{
-		if(targetItems.empty())
+		if(!checkAffixes || IsItemGood(merchantItem))
 		{
-			server->GameStringf(SBM_TAG "Armor found");
-		}
-		else
-		{
-			server->GameStringf(SBM_TAG "%s found", targetItems[merchantItem.szItemCode].c_str());
-		}
+			if(targetItems.empty())
+			{
+				server->GameStringf(SBM_TAG "Good item found");
+			}
+			else
+			{
+				server->GameStringf(SBM_TAG "%s found", targetItems[merchantItem.szItemCode].c_str());
+			}
 
-		gambleQueue.push(merchantItem.dwItemID);
+			gambleQueue.push(merchantItem.dwItemID);
+		}
 	}
 }
 

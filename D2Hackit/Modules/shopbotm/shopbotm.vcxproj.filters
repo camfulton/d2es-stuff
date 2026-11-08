@@ -28,6 +28,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\goodPrefix_shopbotm.txt">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\goodSuffix_shopbotm.txt">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Resources\shopbotm.ini">
       <Filter>Resource Files</Filter>
     </None>

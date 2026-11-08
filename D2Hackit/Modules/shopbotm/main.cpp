@@ -26,6 +26,8 @@ static const char *const SHOP_HELP[] =
 {
 	"shop [item codes]\xFF" "c0 Opens the nearest merchant's store and presses Refresh until stopped (Space),",
 	"shop\xFF" "c0 buying the given 3-letter item codes, or the items in shopbotm_items.txt.",
+	"shop\xFF" "c0 Only items with PrefixCount / SuffixCount good affixes (shopbotm.ini; -1 = any) are bought,",
+	"shop\xFF" "c0 the good ones listed by ID in goodPrefix_shopbotm.txt and goodSuffix_shopbotm.txt.",
 	"s [item codes]\xFF" "c0 Shortcut for shop.",
 	NULL
 };
@@ -67,7 +69,7 @@ BOOL PRIVATE Shop(char** argv, int argc)
 		}
 	}
 
-	shopbot.Start(itemsToShopFor);
+	shopbot.Start(itemsToShopFor, true);
 
 	return TRUE;
 }
@@ -90,7 +92,7 @@ BOOL PRIVATE Chit(char** argv, int argc)
 		return TRUE; // FindChits already explained why
 	}
 
-	shopbot.Start(chits);
+	shopbot.Start(chits, false);   // chits have no affixes to check
 
 	return TRUE;
 }
@@ -116,12 +118,12 @@ BOOL PRIVATE Help(char** argv, int argc)
 	}
 
 	server->GamePrintInfo("ShopbotM commands (.sbm works as a short form of .shopbotm when sbm is loaded):");
-	server->GamePrintInfo("\xFF" "c4.shopbotm shop [item codes]\xFF" "c0 (or\xFF" "c4 s\xFF" "c0) - buy these items, or those in shopbotm_items.txt");
+	server->GamePrintInfo("\xFF" "c4.shopbotm shop [item codes]\xFF" "c0 (or\xFF" "c4 s\xFF" "c0) - buy these items, or those in shopbotm_items.txt, if their affixes are good enough");
 	server->GamePrintInfo("\xFF" "c4.shopbotm chit <base name | item codes>\xFF" "c0 (or\xFF" "c4 c\xFF" "c0) - buy chits of those bases, e.g.\xFF" "c4 chit light plate\xFF" "c0,\xFF" "c4 c hood\xFF" "c0 or\xFF" "c4 c ltp vgl");
 	server->GamePrintInfo("\xFF" "c0  If the words could mean item codes or a name you will be asked which:\xFF" "c4 #code\xFF" "c0 forces codes,\xFF" "c4 'name'\xFF" "c0 a name");
 	server->GamePrintInfo("\xFF" "c4.shopbotm stop\xFF" "c0 - stop shopping (or press Space)");
 	server->GamePrintInfo("\xFF" "c4.shopbotm <command> help\xFF" "c0 - details for one command");
-	server->GamePrintInfo("Delay between refreshes: RefreshCooldownMs in " CONFIG_PATH);
+	server->GamePrintInfo("Settings in " CONFIG_PATH ": RefreshCooldownMs (delay between refreshes), PrefixCount and SuffixCount (shop only)");
 
 	return TRUE;
 }

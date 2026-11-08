@@ -1,6 +1,7 @@
 #include <queue>
 #include <vector>
 #include <string>
+#include <unordered_set>
 #include <unordered_map>
 #include "../../Includes/D2Client.h"
 
@@ -34,7 +35,9 @@ class ShopBot
 {
 	public:
 		ShopBot();
-		bool Start(const std::unordered_map<std::string, std::string>& itemsToShopFor);
+		// checkAffixes: buy only items with enough good prefixes/suffixes (the shop command, as in shopbot).
+		// The chit command passes false: chits have no affixes.
+		bool Start(const std::unordered_map<std::string, std::string>& itemsToShopFor, bool checkAffixes);
 		// args: a base name ("light plate") or item codes ("ltp vgl", or chit codes); fills chits with code -> name
 		bool FindChits(const std::vector<std::string> &args, std::unordered_map<std::string, std::string> &chits);
 		void OnTick();
@@ -46,7 +49,9 @@ class ShopBot
 		void Stop();
 
 	private:
+		bool ReadConfig(const std::string &configPath, std::unordered_set<int> &readTo);
 		bool LoadItemMap(const std::string &fileName, std::unordered_map<std::string, std::string> &itemMap);
+		bool IsItemGood(const ITEM &item);
 		void PurchaseQueuedItems();
 		bool WillItemFit(DWORD dwItemId);
 		bool SendRefresh();
@@ -55,8 +60,13 @@ class ShopBot
 		std::queue<DWORD> gambleQueue;
 
 		DWORD FindMerchant();
+		int minPrefix;
+		int minSuffix;
+		bool checkAffixes;
 		States currentState;
 		std::string merchantName;
+		std::unordered_set<int> goodPrefix;
+		std::unordered_set<int> goodSuffix;
 		std::unordered_map<std::string, std::string> targetItems;
 
 		GAMEUNIT merchantNpc;
