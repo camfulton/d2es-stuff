@@ -124,11 +124,37 @@ static bool FindGambleCodes(const std::vector<std::string> &args, std::vector<st
 	return true;
 }
 
+// D2HackIt prints a command's usage text by splitting it at each "\n" in place, which would write
+// into a read-only string and crash. So each usage text below is one line, and commands with more
+// to say print their own help with PrintUsage.
+static void PrintUsage(char** argv, const char *const *lines)
+{
+	server->GamePrintInfo("Usage:");
+	for (int i = 0; lines[i] != NULL; i++)
+	{
+		char line[512];
+		sprintf_s(line, "\xFF" "c4.%s %s", argv[0], lines[i]);
+		server->GamePrintInfo(line);
+	}
+}
+
+static const char *const START_HELP[] =
+{
+	"start <item codes>\xFF" "c0 Gambles for these 3-letter item codes, e.g.\xFF" "c4 start rin amu",
+	"start <item name>\xFF" "c0 Gambles for that item; exceptional and elite names gamble for their normal base,",
+	"start\xFF" "c0 e.g.\xFF" "c4 start death mask\xFF" "c0 gambles for Mask.",
+	"start #<code> ...\xFF" "c0 Forces item codes, e.g.\xFF" "c4 start #rin #amu\xFF" "c0 (# on every code).",
+	"start '<name>'\xFF" "c0 Forces a name, e.g.\xFF" "c4 start 'war hat'\xFF" "c0 (single quotes).",
+	"\xFF" "c0  Only needed when the words could be read either way; you will be told when they can.",
+	NULL
+};
+
 BOOL PRIVATE Start(char** argv, int argc)
 {
 	if(argc < 3 || (argc == 3 && _stricmp(argv[2], "help") == 0))
 	{
-		return FALSE;
+		PrintUsage(argv, START_HELP);
+		return TRUE;
 	}
 
 	std::vector<std::string> args(argv + 2, argv + argc);
@@ -508,6 +534,48 @@ BOOL PRIVATE ToggleIDBlock(char **argv, int argc)
 	return TRUE;
 }
 
+// Replaces D2HackIt's default help, which lists command names only
+BOOL PRIVATE Help(char** argv, int argc)
+{
+	if(argc > 2)
+	{
+		return FALSE;
+	}
+
+	// Each preset gambles one base and keeps only the unique that rolls as another code
+	static const char *const PRESETS[][3] =
+	{
+		{ "StartFoc",             "ful", "yul" },
+		{ "StartHeavyMetal",      "gix", "0gi" },
+		{ "StartPolarStar",       "ci0", "ci3" },
+		{ "StartDeathwatchGuard", "fts", "yft" },
+		{ "StartExNihilo",        "tsp", "0ts" },
+		{ "StartWraithShroud",    "rob", "yrb" },
+		{ "StartMagesDelight",    "ltp", "ytp" },
+	};
+
+	server->GamePrintInfo("GambleM commands (.gm works as a short form of .gamblem when gm is loaded). Space stops gambling.");
+	server->GamePrintInfo("\xFF" "c4.gamblem start <item codes | item name>\xFF" "c0 - gamble for these, e.g.\xFF" "c4 start rin amu\xFF" "c0 or\xFF" "c4 start death mask\xFF" "c0 (gambles Mask)");
+	server->GamePrintInfo("\xFF" "c0  If the words could mean item codes or a name you will be asked which:\xFF" "c4 #code\xFF" "c0 forces codes,\xFF" "c4 'name'\xFF" "c0 a name");
+	server->GamePrintInfo("\xFF" "c4.gamblem startrings\xFF" "c0 /\xFF" "c4 startamulets\xFF" "c0 /\xFF" "c4 startjewellery\xFF" "c0 - gamble for rings, amulets, or both (class versions included)");
+	server->GamePrintInfo("\xFF" "c4.gamblem startaurastones\xFF" "c0 - gamble for class amulets; also toggles autostock with sets, rares and uniques");
+	for(const auto &preset : PRESETS)
+	{
+		server->GameStringf("\xFF" "c4.gamblem %s\xFF" "c0 - gamble %s (%s), keeping only uniques that roll as %s (%s)",
+			preset[0], server->GetItemName(preset[1]), preset[1], server->GetItemName(preset[2]), preset[2]);
+	}
+	server->GamePrintInfo("\xFF" "c0  (these presets turn on\xFF" "c4 sell magic rare set\xFF" "c0 and set\xFF" "c4 nosell\xFF" "c0 to the unique's code)");
+	server->GamePrintInfo("\xFF" "c4.gamblem sell [magic] [set] [rare] [unique]\xFF" "c0 - when the inventory fills, sell gambled items of these qualities; no words turns it off");
+	server->GamePrintInfo("\xFF" "c4.gamblem nosell <item codes>\xFF" "c0 - sell every gambled item that isn't one of these codes");
+	server->GamePrintInfo("\xFF" "c4.gamblem autostock [sets] [rares] [uniques]\xFF" "c0 - toggle running the autostocker (.as) when full; magic items always go");
+	server->GamePrintInfo("\xFF" "c4.gamblem request [players]\xFF" "c0 - toggle asking in chat for gold when it runs out, split between that many players");
+	server->GamePrintInfo("\xFF" "c4.gamblem master <player>\xFF" "c0 - drop gold when that player says an amount in chat");
+	server->GamePrintInfo("\xFF" "c4.gamblem <command> help\xFF" "c0 - details for one command");
+	server->GamePrintInfo("Delay between refreshes: RefreshCooldownMs in " CONFIG_PATH);
+
+	return TRUE;
+}
+
 ////////////////////////////////////////////
 //
 //               EXPORTS
@@ -717,16 +785,13 @@ MODULECOMMANDSTRUCT ModuleCommands[]=
 {
 	{
 		"help",
-		OnGameCommandHelp,
-		"help\xFF" "c0 List commands available in this module.\n"
-		"<command> help\xFF" "c0 Shows detailed help for <command> in this module."
+		Help,
+		"help\xFF" "c0 Lists the commands;\xFF" "c4 <command> help\xFF" "c0 shows details for one."
 	},
 	{
 		"Start",
 		Start,
-		"Start <item codes>\xFF" "c0 Gambles for these 3-letter item codes, e.g.\xFF" "c4 start rin amu\n"
-		"Start <item name>\xFF" "c0 Gambles for that item; exceptional and elite names gamble for their normal base, e.g.\xFF" "c4 start death mask\xFF" "c0 gambles for Mask.\n"
-		"Start #<code> / '<name>'\xFF" "c0 Forces codes or a name when the words could be read either way."
+		"Start <item codes | item name>\xFF" "c0 Starts gambling; see\xFF" "c4 .gamblem start help"
 	},
 	{
 		"StartRings",

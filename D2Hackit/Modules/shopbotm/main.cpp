@@ -8,12 +8,47 @@ static bool AskedForHelp(char** argv, int argc)
 	return argc > 2 && _stricmp(argv[2], "help") == 0;
 }
 
+// D2HackIt prints a command's usage text by splitting it at each "\n" in place, which would write
+// into a read-only string and crash. So each usage text below is one line, and commands with more
+// to say print their own help with PrintUsage.
+static void PrintUsage(char** argv, const char *const *lines)
+{
+	server->GamePrintInfo("Usage:");
+	for (int i = 0; lines[i] != NULL; i++)
+	{
+		char line[512];
+		sprintf_s(line, "\xFF" "c4.%s %s", argv[0], lines[i]);
+		server->GamePrintInfo(line);
+	}
+}
+
+static const char *const SHOP_HELP[] =
+{
+	"shop [item codes]\xFF" "c0 Opens the nearest merchant's store and presses Refresh until stopped (Space),",
+	"shop\xFF" "c0 buying the given 3-letter item codes, or the items in shopbotm_items.txt.",
+	"s [item codes]\xFF" "c0 Shortcut for shop.",
+	NULL
+};
+
+static const char *const CHIT_HELP[] =
+{
+	"chit <base name>\xFF" "c0 Buys every chit of that base, e.g.\xFF" "c4 chit light plate\xFF" "c0 buys all (Light Plate) Gambling chits.",
+	"chit <exceptional or elite name>\xFF" "c0 Buys the chits of its normal base, e.g.\xFF" "c4 chit hood\xFF" "c0 buys Cap chits.",
+	"chit <item codes>\xFF" "c0 Buys chits for these item codes of any tier (e.g.\xFF" "c4 chit ltp yvg\xFF" "c0); chit codes themselves work too.",
+	"chit #<code> ...\xFF" "c0 Forces item codes, e.g.\xFF" "c4 chit #ltp #vgl\xFF" "c0 (# on every code).",
+	"chit '<name>'\xFF" "c0 Forces a name, e.g.\xFF" "c4 chit 'war hat'\xFF" "c0 (single quotes).",
+	"\xFF" "c0  Only needed when the words could be read either way; you will be told when they can.",
+	"c <base name | item codes>\xFF" "c0 Shortcut for chit.",
+	NULL
+};
+
 // .shopbotm shop [item codes] (shortcut: s)
 BOOL PRIVATE Shop(char** argv, int argc)
 {
 	if (argc < 2 || AskedForHelp(argv, argc))
 	{
-		return FALSE;
+		PrintUsage(argv, SHOP_HELP);
+		return TRUE;
 	}
 
 	std::unordered_map<std::string, std::string> itemsToShopFor;
@@ -27,7 +62,8 @@ BOOL PRIVATE Shop(char** argv, int argc)
 		else
 		{
 			server->GameStringf(SBM_TAG "Invalid item code %s (must be 3 characters)", argv[i]);
-			return FALSE;
+			PrintUsage(argv, SHOP_HELP);
+			return TRUE;
 		}
 	}
 
@@ -42,7 +78,8 @@ BOOL PRIVATE Chit(char** argv, int argc)
 {
 	if (argc < 3 || AskedForHelp(argv, argc))
 	{
-		return FALSE;
+		PrintUsage(argv, CHIT_HELP);
+		return TRUE;
 	}
 
 	std::vector<std::string> args(argv + 2, argv + argc);
@@ -81,6 +118,7 @@ BOOL PRIVATE Help(char** argv, int argc)
 	server->GamePrintInfo("ShopbotM commands (.sbm works as a short form of .shopbotm when sbm is loaded):");
 	server->GamePrintInfo("\xFF" "c4.shopbotm shop [item codes]\xFF" "c0 (or\xFF" "c4 s\xFF" "c0) - buy these items, or those in shopbotm_items.txt");
 	server->GamePrintInfo("\xFF" "c4.shopbotm chit <base name | item codes>\xFF" "c0 (or\xFF" "c4 c\xFF" "c0) - buy chits of those bases, e.g.\xFF" "c4 chit light plate\xFF" "c0,\xFF" "c4 c hood\xFF" "c0 or\xFF" "c4 c ltp vgl");
+	server->GamePrintInfo("\xFF" "c0  If the words could mean item codes or a name you will be asked which:\xFF" "c4 #code\xFF" "c0 forces codes,\xFF" "c4 'name'\xFF" "c0 a name");
 	server->GamePrintInfo("\xFF" "c4.shopbotm stop\xFF" "c0 - stop shopping (or press Space)");
 	server->GamePrintInfo("\xFF" "c4.shopbotm <command> help\xFF" "c0 - details for one command");
 	server->GamePrintInfo("Delay between refreshes: RefreshCooldownMs in " CONFIG_PATH);
@@ -168,15 +206,12 @@ MODULECOMMANDSTRUCT ModuleCommands[]=
 	{
 		"help",
 		Help,
-		"help\xFF" "c0 List the commands in this module.\n"
-		"<command> help\xFF" "c0 Shows detailed help for <command>."
+		"help\xFF" "c0 Lists the commands;\xFF" "c4 <command> help\xFF" "c0 shows details for one."
 	},
 	{
 		"shop",
 		Shop,
-		"shop [item codes]\xFF" "c0 Opens the nearest merchant's store and presses Refresh until stopped (Space),\n"
-		"shop\xFF" "c0 buying the given 3-letter item codes, or the items in shopbotm_items.txt.\n"
-		"s [item codes]\xFF" "c0 Shortcut for shop."
+		"shop [item codes]\xFF" "c0 Buys these items (or those in shopbotm_items.txt), pressing Refresh until stopped."
 	},
 	{
 		"s",
@@ -186,11 +221,7 @@ MODULECOMMANDSTRUCT ModuleCommands[]=
 	{
 		"chit",
 		Chit,
-		"chit <base name>\xFF" "c0 Buys every chit of that base, e.g.\xFF" "c4 chit light plate\xFF" "c0 buys all (Light Plate) Gambling chits.\n"
-		"chit <exceptional or elite name>\xFF" "c0 Buys the chits of its normal base, e.g.\xFF" "c4 chit hood\xFF" "c0 buys Cap chits.\n"
-		"chit <item codes>\xFF" "c0 Buys chits for these item codes of any tier (e.g.\xFF" "c4 chit ltp yvg\xFF" "c0); chit codes themselves work too.\n"
-		"chit #<code> / '<name>'\xFF" "c0 Forces codes or a name when the words could be read either way.\n"
-		"c <base name | item codes>\xFF" "c0 Shortcut for chit."
+		"chit <base name | item codes>\xFF" "c0 Buys chits of those bases; see\xFF" "c4 .shopbotm chit help"
 	},
 	{
 		"c",
